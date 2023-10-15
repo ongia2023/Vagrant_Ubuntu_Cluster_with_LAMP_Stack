@@ -1,0 +1,87 @@
+# Vagrant LAMP Stack Setup Script Documentation
+
+## Introduction
+
+This script is designed to automate the setup of a LAMP (Linux, Apache, MySQL, PHP) 
+stack on two virtual machines (VMs) created using Vagrant. The two VMs are referred to as the "Master" and 
+"Slave" nodes. Additionally, the script allows for SSH key-based authentication between the nodes,
+ data transfer from the Master to the Slave, and provides an overview of the running processes on the Master node.
+
+## Prerequisites
+
+Before executing the script, make sure you have the following prerequisites:
+
+1. [Vagrant](https://www.vagrantup.com/) installed on your local machine.
+2. [VirtualBox](https://www.virtualbox.org/) or another supported Vagrant provider installed.
+3. The Vagrant box "ubuntu/focal64" should be added. If not, the script will automatically add it.
+
+## Script Execution
+
+Follow these steps to execute the script:
+
+1. **Download and Prepare the Script**
+
+   - Download the script to your local machine.
+   - Open a terminal and navigate to the directory where you saved the script.
+
+2. **Execute the Script**
+
+   - Run the script with the following command:
+
+     ```bash
+     bash vagrant_lamp_setup.sh
+     ```
+
+   The script will begin the setup process, which includes the following steps:
+
+3. **Master Node Setup**
+
+   - The script creates the "Master" VM with the IP address specified in `MASTER_IP`.
+   - It installs a LAMP stack on the Master node, ensuring that Apache is running and set to start on boot.
+   - The MySQL installation is secured, and a default user and password are set.
+   - PHP functionality with Apache is validated.
+   - An overview of running processes on the Master node is displayed.
+
+4. **SSH Key-Based Authentication Setup**
+
+   - An SSH key is generated for the "altschool" user on the Master node.
+   - The public key is copied to the "Slave" node, allowing for passwordless SSH access.
+
+5. **Data Transfer**
+
+   - The script transfers the contents of the `/mnt/altschool` directory from the Master node to
+    `/mnt/altschool/slave` on the Slave node using the "altschool" user.
+
+6. **Slave Node Setup**
+
+   - The script creates the "Slave" VM with the IP address specified in `SLAVE_IP`.
+   - It installs a LAMP stack on the Slave node, similar to the Master node setup.
+
+7. **Finalization**
+
+   - Once the setup is complete, the script returns you to the parent directory.
+
+8. **Clean Up and SSH Access**
+
+   - You can access the "Master" node by running the following command:
+
+     ```bash
+     vagrant ssh -c "cd /vagrant/master && vagrant ssh"
+     ```
+
+   This command will SSH into the "Master" node.
+
+## Configuration and Customization
+
+You can customize this script by modifying the values in the script,
+ such as `UBUNTU_VERSION`, `MASTER_IP`, and `SLAVE_IP`, to match your requirements.
+
+## Security Considerations
+
+Ensure you follow security best practices when setting up SSH key-based authentication and 
+securing your MySQL installation.
+
+## Troubleshooting
+
+If you encounter issues during the script execution, 
+make sure that you meet the prerequisites, and double-check the configuration values.
